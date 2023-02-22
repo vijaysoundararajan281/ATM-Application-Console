@@ -1,7 +1,7 @@
 package ATM;
 import java.text.SimpleDateFormat;
 import java.util.*;
-public class atm {
+public class main {
     public static Scanner sc = new Scanner(System.in);
     public static int[][] amount = new int[2][4];
     public static int balance=0;
