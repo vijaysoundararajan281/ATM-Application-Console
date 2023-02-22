@@ -1,7 +1,6 @@
-package ATM;
 import java.text.SimpleDateFormat;
 import java.util.*;
-public class main {
+public class Main {
     public static Scanner sc = new Scanner(System.in);
     public static int[][] amount = new int[2][4];
     public static int balance=0;
@@ -9,16 +8,44 @@ public class main {
     public static int[][] arr = { { 11,110,1000 }, {12, 120,20000 },{13,130,10000} };
     public static SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy.HH:mm:ss");
     public static void admin(){
-        int admin_password=1234;
+        String admin_password="1234";
         System.out.println("Enter admin password : ");
-        int e=sc.nextInt();
-        if(e==admin_password){
+        String e=sc.nextLine();
+        if(e.equals(admin_password)){
             System.out.println("Select any one : ");
             System.out.println("To Load Amount : 1");
             System.out.println("Check Balance : 2");
             System.out.println("Exit : 3");
             int n1=sc.nextInt();
             if(n1==1){
+                denomination('A',0);
+            }
+            else if(n1==2){
+                System.out.println("The available blance is : "+balance);
+                System.out.println("Select any one : ");
+                System.out.println("To go to admin : 1");
+                System.out.println("To go to main menu : 2");
+                int n3 = sc.nextInt();
+                if(n3==1){
+                    admin();
+                }
+                else if(n3==2){
+                    system();
+                }
+            }
+            else if(n1==3){
+                system();
+            }
+            else{
+                System.out.println("Select either 1 or 2 or 3");
+            }
+        }
+        else{
+            System.out.println("Wrong password");
+            admin();
+        }
+    }
+    public static void denomination(char w,int i){
                 System.out.println("Enter the amount :");
                 int a=sc.nextInt();
                 System.out.println("Enter the denomination value : ");
@@ -90,43 +117,39 @@ public class main {
                     System.out.println("System only accepts "+ (100-amount[1][3])+" notes");
                     admin();
                 }
-                System.out.println("Amount Loaded Successfully");
-                System.out.println("Select any one : ");
-                System.out.println("To go to admin : 1");
-                System.out.println("To go to main menu : 2");
-                int n3 = sc.nextInt();
-                if(n3==1){
-                    admin();
+                if(a1*2000+a2*500+a3*200+a4*100 == a){
+                    System.out.println(a1*2000+a2*500+a3*200+a4*100);
+                    System.out.println("Amount Loaded Successfully");
                 }
-                else if(n3==2){
-                    system();
+                else{
+                    System.out.println("Amount and the denomination value does not match");
+                    if (w=='A'){
+                        denomination(w, i);
+                    }
+                    else{
+                        user1(i);
+                    }
                 }
-                
-            }
-            else if(n1==2){
-                System.out.println("The available blance is : "+balance);
-                System.out.println("Select any one : ");
-                System.out.println("To go to admin : 1");
-                System.out.println("To go to main menu : 2");
-                int n3 = sc.nextInt();
-                if(n3==1){
-                    admin();
+                if (w=='A'){
+                    System.out.println("Select any one : ");
+                    System.out.println("To go to admin : 1");
+                    System.out.println("To go to main menu : 2");
+                    int n3 = sc.nextInt();
+                    if(n3==1){
+                        admin();
+                    }
+                    else if(n3==2){
+                        system();
+                    }
                 }
-                else if(n3==2){
-                    system();
+                else if (w=='U'){
+                    arr[i][2]+=a;
+                    System.out.println("Succesfull");
+                    String timeStamp = df.format(new Date());
+                    state[i] = state[i]+ '\n'+"Amount deposited of "+ a +" at "+timeStamp;
+                    System.out.println("Your available balance is" + arr[i][2]);
+                    user1(i);
                 }
-            }
-            else if(n1==3){
-                system();
-            }
-            else{
-                System.out.println("Select either 1 or 2 or 3");
-            }
-        }
-        else{
-            System.out.println("Wrong password");
-            admin();
-        }
     }
     public static void user(){
         Scanner sc = new Scanner(System.in);
@@ -217,9 +240,9 @@ public class main {
             if(c==1){
                 for(int j=0;j<4;j++){
                     if(amdup>=amount[0][j]){
-                        if(amount[1][j] >= am/amount[j][0]){
+                        if(amount[1][j] >= am/amount[0][j]){
                             amdup = am%amount[0][j];
-                            amount[1][j]-=am/amount[j][0];
+                            amount[1][j]-=am/amount[0][j];
                         }
                     }
                     if(am == 0){
@@ -246,84 +269,7 @@ public class main {
         user1(i);
     }
     public static void deposit(int i){
-        System.out.println("Plese enter the amount to be deposited :");
-        int amu=sc.nextInt();
-        System.out.println("Enter the denomination value : ");
-                System.out.print("2000 :");
-                int a1=sc.nextInt();
-                if(a1+amount[1][0]<=100){
-                    System.out.println("Valid");
-                    amount[1][0]+=a1;
-                    balance += 2000*a1;
-                }
-                else{
-                    System.out.println("System only accepts"+ (100-amount[1][0])+"notes");
-                    user1(i);
-                }
-                System.out.println("500 :");
-                int a2=sc.nextInt();
-                if(a2+amount[1][1]<=100){
-                    System.out.println("Valid");
-                    amount[1][1]+=a2;
-                    balance+=500*a2;
-                }
-                else{
-                    if(a1 !=0 ){
-                        amount[1][0]-=a1;
-                        balance -= 2000*a1;
-                    }
-                    System.out.println("System only accepts"+ (100-amount[1][1])+"notes");
-                    user1(i);
-                }
-                System.out.println("200 :");
-                int a3=sc.nextInt();
-                if(a3+amount[1][2]<=100){
-                    System.out.println("Valid");
-                    amount[1][2]+=a3;
-                    balance+=200*a3;
-                }
-                else{
-                    if(a1 !=0 ){
-                        amount[1][0]-=a1;
-                        balance -= 2000*a1;
-                    }
-                    if(a2 !=0 ){
-                        amount[1][1]-=a2;
-                        balance -= 500*a2;
-                    }
-                    System.out.println("System only accepts"+ (100-amount[1][2])+"notes");
-                    user1(i);
-                }
-                System.out.println("100 :");
-                int a4=sc.nextInt();
-                if(a4+amount[1][3]<=100){
-                    System.out.println("Valid");
-                    amount[1][3]+=a4;
-                    balance+=100*a4;
-                }
-                else{
-                    if(a1 !=0 ){
-                        amount[1][0]-=a1;
-                        balance -= 2000*a1;
-                    }
-                    if(a2 !=0 ){
-                        amount[1][1]-=a2;
-                        balance -= 500*a2;
-                    }
-                    if(a3!=0){
-                        amount[1][2]-=a3;
-                        balance -= 200*a3;
-                    }
-                    System.out.println("System only accepts"+ (100-amount[1][3])+"notes");
-                    user1(i);
-                }
-                arr[i][2]+=amu;
-                //balance+=amu;
-                System.out.println("Succesfull");
-                String timeStamp = df.format(new Date());
-                state[i] = state[i]+ '\n'+"Amount deposited of "+ amu +" at "+timeStamp;
-                System.out.println("Your available balance is" + arr[i][2]);
-                user1(i);
+        denomination('U', i);
     }
     public static void transfer(int i){
         System.out.println("Please enter the user id to whom you want to transfer:");
@@ -341,7 +287,6 @@ public class main {
                 if(a1+amount[1][0]<=100){
                     System.out.println("Valid");
                     amount[1][0]+=a1;
-                    //balance += 2000*a1;
                 }
                 else{
                     System.out.println("System only accepts"+ (100-amount[0][0])+"notes");
@@ -352,12 +297,10 @@ public class main {
                 if(a2+amount[1][1]<=100){
                     System.out.println("Valid");
                     amount[1][1]+=a2;
-                    //balance+=500*a2;
                 }
                 else{
                     if(a1 !=0 ){
                         amount[1][0]-=a1;
-                        //balance -= 2000*a1;
                     }
                     System.out.println("System only accepts"+ (100-amount[1][1])+"notes");
                     user1(i);
@@ -367,16 +310,13 @@ public class main {
                 if(a3+amount[1][2]<=100){
                     System.out.println("Valid");
                     amount[1][2]+=a3;
-                    //balance+=200*a3;
                 }
                 else{
                     if(a1 !=0 ){
                         amount[1][0]-=a1;
-                        //balance -= 2000*a1;
                     }
                     if(a2 !=0 ){
                         amount[1][1]-=a2;
-                        //balance -= 500*a2;
                     }
                     System.out.println("System only accepts"+ (100-amount[2][2])+"notes");
                     user1(i);
@@ -386,20 +326,16 @@ public class main {
                 if(a4+amount[1][3]<=100){
                     System.out.println("Valid");
                     amount[1][3]+=a4;
-                    //balance+=100*a4;
                 }
                 else{
                     if(a1 !=0 ){
                         amount[1][0]-=a1;
-                        //balance -= 2000*a1;
                     }
                     if(a2 !=0 ){
                         amount[1][1]-=a2;
-                        //balance -= 500*a2;
                     }
                     if(a3!=0){
                         amount[1][2]-=a3;
-                        //balance -= 200*a3;
                     }
                     System.out.println("System only accepts"+ (100-amount[3][3])+"notes");
                     user1(i);
@@ -436,7 +372,7 @@ public class main {
                 arr[i][1]=p1;
                 System.out.println("Pin changed successfully");
                 String timeStamp = df.format(new Date());
-                state[i] = state[i]+ '\n'+"New pin changed ";
+                state[i] = state[i]+ '\n'+"New pin changed at "+timeStamp;
                 user();
             }
             else{
@@ -463,10 +399,7 @@ public class main {
 
     }
     public static void main(String args[]){
-        amount[0][0]=2000;
-        amount[0][1]=500;
-        amount[0][2]=200;
-        amount[0][3]=100;
+        amount[0][0]=2000;amount[0][1]=500;amount[0][2]=200;amount[0][3]=100;
         system();   
     }
 }
